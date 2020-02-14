@@ -53,18 +53,28 @@
   };
 
   class Product {
-    constructor() {
+    constructor(id, data) {
       const thisProduct = this;
-
+      thisProduct.id = id;
+      thisProduct.data = data;
+      thisProduct.renderInMenu();
       console.log('new Product:', thisProduct);
     }
+    renderInMenu(){
+      const thisProduct = this;
+      const generatedHTML = templates.menuProduct(thisProduct.data);
+      thisProduct.element = utils.createDOMFromHTML(generatedHTML);
+      const menuContainer = document.querySelector(select.containerOf.menu);
+      menuContainer.appendChild(thisProduct.element);
+    }
   }
-  const appp = {
+  const app = {
     initMenu: function () {
+      const thisApp = this;
       const testProduct = new Product();
       console.log('testProduct:', testProduct);
-      for (let productData in thisApp.data.products) {
-        new product(productData, thisApp.data.products[productData]);
+      for (let productData in thisApp.data.product) {
+        new Product(productData, thisApp.data.products[productData]);
       }
     },
     initData: function () {
@@ -80,7 +90,7 @@
       console.log('settings', settings);
       console.log('templates', templates);
 
-      thisApp.initdata();
+      thisApp.initData();
       thisApp.initMenu();
     },
   };
